@@ -57,6 +57,7 @@ export default [
         icon: mdiLogout,
         label: "Log Out",
         isLogout: true,
+        to: "/login",
       },
     ],
   },
@@ -85,5 +86,6 @@ export default [
     label: "Log out",
     isDesktopNoLabel: true,
     isLogout: true,
+    to: "/login",
   },
 ];

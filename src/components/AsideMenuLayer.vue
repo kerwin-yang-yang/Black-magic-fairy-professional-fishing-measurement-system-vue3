@@ -21,6 +21,7 @@ const logoutItem = computed(() => ({
   label: "Logout",
   icon: mdiLogout,
   color: "info",
+  to:'/login',
   isLogout: true,
 }));
 
