@@ -29,17 +29,22 @@ const wrapperClass = computed(() => {
   if (slotsLength === 2) {
     base.push("md:grid-cols-2");
   }
-
+  if (slotsLength === 3) {
+    base.push("md:grid-cols-3");
+  }
+  if (slotsLength === 4) {
+    base.push("md:grid-cols-4");
+  }
   return base;
 });
 </script>
 
 <template>
-  <div class="mb-6 last:mb-0">
+  <div style="margin-top:5px;margin-left:10px">
     <label v-if="label" :for="labelFor" class="block font-bold mb-2">{{
       label
     }}</label>
-    <div :class="wrapperClass">
+    <div :class="wrapperClass" style="margin-right:20px">
       <slot />
     </div>
     <div v-if="help" class="text-xs text-gray-500 dark:text-slate-400 mt-1">

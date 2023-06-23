@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import http from "@/request/http.js";
 
 export const useMainStore = defineStore("main", {
   state: () => ({
@@ -10,7 +11,8 @@ export const useMainStore = defineStore("main", {
 
     /* Field focus with ctrl+k (to register only once) */
     isFieldFocusRegistered: false,
-
+    islogined: false,
+    tryLoginMess: '',
     /* Sample data (commonly used) */
     clients: [],
     history: [],
@@ -27,7 +29,20 @@ export const useMainStore = defineStore("main", {
         this.userAvatar = payload.avatar;
       }
     },
+    async login(form) {
+      await http.post('/auth/login', form)
+        .then((response) => {
+          this.islogined = true
+          console.log(response.data)
+          this.tryLoginMess = response.data.message
+        })
+        .catch((error) => {
+          // console.log(error.response.data.message)
+          this.islogined = false
+          this.tryLoginMess = error.response.data.message
 
+        })
+    },
     fetch(sampleDataKey) {
       axios
         .get(`data-sources/${sampleDataKey}.json`)

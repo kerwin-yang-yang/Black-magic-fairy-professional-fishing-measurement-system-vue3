@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, defineEmits } from "vue";
 import { useMainStore } from "@/stores/main";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
@@ -12,7 +12,7 @@ import UserAvatar from "@/components/UserAvatar.vue";
 defineProps({
   checkable: Boolean,
 });
-
+defineEmits(['showbutton', 'editbutton','deletebutton','Freeze'])
 const mainStore = useMainStore();
 
 const items = computed(() => mainStore.clients);
@@ -78,22 +78,14 @@ const checked = (isChecked, client) => {
     <p>This is sample modal</p>
   </CardBoxModal>
 
-  <CardBoxModal
-    v-model="isModalDangerActive"
-    title="Please confirm"
-    button="danger"
-    has-cancel
-  >
+  <CardBoxModal v-model="isModalDangerActive" title="Please confirm" button="danger" has-cancel>
     <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
     <p>This is sample modal</p>
   </CardBoxModal>
 
   <div v-if="checkedRows.length" class="p-3 bg-gray-100/50 dark:bg-slate-800">
-    <span
-      v-for="checkedRow in checkedRows"
-      :key="checkedRow.id"
-      class="inline-block px-2 py-1 rounded-sm mr-2 text-sm bg-gray-100 dark:bg-slate-700"
-    >
+    <span v-for="checkedRow in checkedRows" :key="checkedRow.id"
+      class="inline-block px-2 py-1 rounded-sm mr-2 text-sm bg-gray-100 dark:bg-slate-700">
       {{ checkedRow.name }}
     </span>
   </div>
@@ -113,15 +105,9 @@ const checked = (isChecked, client) => {
     </thead>
     <tbody>
       <tr v-for="client in itemsPaginated" :key="client.id">
-        <TableCheckboxCell
-          v-if="checkable"
-          @checked="checked($event, client)"
-        />
+        <TableCheckboxCell v-if="checkable" @checked="checked($event, client)" />
         <td class="border-b-0 lg:w-6 before:hidden">
-          <UserAvatar
-            :username="client.name"
-            class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
-          />
+          <UserAvatar :username="client.name" class="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
         </td>
         <td data-label="Name">
           {{ client.name }}
@@ -133,35 +119,20 @@ const checked = (isChecked, client) => {
           {{ client.city }}
         </td>
         <td data-label="Progress" class="lg:w-32">
-          <progress
-            class="flex w-2/5 self-center lg:w-full"
-            max="100"
-            :value="client.progress"
-          >
+          <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="client.progress">
             {{ client.progress }}
           </progress>
         </td>
         <td data-label="Created" class="lg:w-1 whitespace-nowrap">
-          <small
-            class="text-gray-500 dark:text-slate-400"
-            :title="client.created"
-            >{{ client.created }}</small
-          >
+          <small class="text-gray-500 dark:text-slate-400" :title="client.created">{{ client.created }}</small>
         </td>
         <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
-            <BaseButton
-              color="info"
-              :icon="mdiEye"
-              small
-              @click="isModalActive = true"
-            />
-            <BaseButton
-              color="danger"
-              :icon="mdiTrashCan"
-              small
-              @click="isModalDangerActive = true"
-            />
+            <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" label="查看" />
+            <BaseButton color="info" small @click="isModalActive = true" label="删除" />
+            <BaseButton color="info" small @click="isModalActive = true" label="修改" />
+            <BaseButton color="info" small @click="isModalActive = true" label="冻结" />
+            <BaseButton color="danger" :icon="mdiTrashCan" small @click="isModalDangerActive = true" label="解冻" />
           </BaseButtons>
         </td>
       </tr>
@@ -170,15 +141,8 @@ const checked = (isChecked, client) => {
   <div class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
     <BaseLevel>
       <BaseButtons>
-        <BaseButton
-          v-for="page in pagesList"
-          :key="page"
-          :active="page === currentPage"
-          :label="page + 1"
-          :color="page === currentPage ? 'lightDark' : 'whiteDark'"
-          small
-          @click="currentPage = page"
-        />
+        <BaseButton v-for="page in pagesList" :key="page" :active="page === currentPage" :label="page + 1"
+          :color="page === currentPage ? 'lightDark' : 'whiteDark'" small @click="currentPage = page" />
       </BaseButtons>
       <small>Page {{ currentPageHuman }} of {{ numPages }}</small>
     </BaseLevel>

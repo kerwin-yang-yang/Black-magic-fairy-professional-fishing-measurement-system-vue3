@@ -1,9 +1,10 @@
 <script setup>
-import { computed } from "vue";
+import { computed, defineEmits } from "vue";
 import { RouterLink } from "vue-router";
 import { getButtonColor } from "@/colors.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 
+defineEmits(['buttonclick'])
 const props = defineProps({
   label: {
     type: [String, Number],
@@ -109,15 +110,9 @@ const componentClass = computed(() => {
 </script>
 
 <template>
-  <component
-    :is="is"
-    :class="componentClass"
-    :href="href"
-    :type="computedType"
-    :to="to"
-    :target="target"
-    :disabled="disabled"
-  >
+  <component :is="is" :class="componentClass" :href="href" :type="computedType" :to="to" :target="target"
+    :disabled="disabled" @click="$emit('buttonclick')">
+
     <BaseIcon v-if="icon" :path="icon" :size="iconSize" />
     <span v-if="label" :class="labelClass">{{ label }}</span>
   </component>

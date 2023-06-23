@@ -9,31 +9,33 @@ import {
   mdiLogout,
   mdiThemeLightDark,
   mdiGithub,
-  mdiReact,
+
+  mdiFullscreen
+
 } from "@mdi/js";
 
 export default [
-  {
-    icon: mdiMenu,
-    label: "Sample menu",
-    menu: [
-      {
-        icon: mdiClockOutline,
-        label: "Item One",
-      },
-      {
-        icon: mdiCloud,
-        label: "Item Two",
-      },
-      {
-        isDivider: true,
-      },
-      {
-        icon: mdiCrop,
-        label: "Item Last",
-      },
-    ],
-  },
+  // {
+  //   icon: mdiMenu,
+  //   label: "Sample menu",
+  //   menu: [
+  //     {
+  //       icon: mdiClockOutline,
+  //       label: "Item One",
+  //     },
+  //     {
+  //       icon: mdiCloud,
+  //       label: "Item Two",
+  //     },
+  //     {
+  //       isDivider: true,
+  //     },
+  //     {
+  //       icon: mdiCrop,
+  //       label: "Item Last",
+  //     },
+  //   ],
+  // },
   {
     isCurrentUser: true,
     menu: [
@@ -45,6 +47,7 @@ export default [
       {
         icon: mdiCogOutline,
         label: "Settings",
+        to: '/setting'
       },
       {
         icon: mdiEmail,
@@ -71,15 +74,17 @@ export default [
     icon: mdiGithub,
     label: "GitHub",
     isDesktopNoLabel: true,
-    href: "https://github.com/justboil/admin-one-vue-tailwind",
+    href: "https://github.com/kerwin-yang-yang/vue3",
     target: "_blank",
   },
   {
-    icon: mdiReact,
-    label: "React version",
+    icon: mdiFullscreen,
+    label: "Full Screen",
     isDesktopNoLabel: true,
-    href: "https://github.com/justboil/admin-one-react-tailwind",
+    // href: "https://github.com/kerwin-yang-yang/vue3",
     target: "_blank",
+    isFullscreen: true,
+
   },
   {
     icon: mdiLogout,

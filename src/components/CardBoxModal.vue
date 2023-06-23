@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, useSlots } from "vue";
 import { mdiClose } from "@mdi/js";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseButtons from "@/components/BaseButtons.vue";
@@ -26,7 +26,7 @@ const props = defineProps({
     default: null,
   },
 });
-
+const slots = useSlots();
 const emit = defineEmits(["update:modelValue", "cancel", "confirm"]);
 
 const value = computed({
@@ -52,36 +52,24 @@ window.addEventListener("keydown", (e) => {
 
 <template>
   <OverlayLayer v-show="value" @overlay-click="cancel">
-    <CardBox
-      v-show="value"
-      class="shadow-lg max-h-modal w-11/12 md:w-3/5 lg:w-2/5 xl:w-4/12 z-50"
-      is-modal
-    >
+    <CardBox v-show="value" class="shadow-lg  w-11/12 md:w-3/5 lg:w-1/5 xl:w-6/12 z-50" is-modal style="  /* 设置 div 可以滚动 */
+  overflow: auto;
+  /* 隐藏滚动条 */
+  scrollbar-width: none;
+  /* Firefox 浏览器需要单独设置 */
+  -ms-overflow-style: none;">
       <CardBoxComponentTitle :title="title">
-        <BaseButton
-          v-if="hasCancel"
-          :icon="mdiClose"
-          color="whiteDark"
-          small
-          rounded-full
-          @click.prevent="cancel"
-        />
+        <BaseButton v-if="hasCancel" :icon="mdiClose" color="whiteDark" small rounded-full @click.prevent="cancel" />
       </CardBoxComponentTitle>
 
-      <div class="space-y-3">
+      <div class=" grid md:grid-cols-1">
         <slot />
       </div>
 
       <template #footer>
         <BaseButtons>
           <BaseButton :label="buttonLabel" :color="button" @click="confirm" />
-          <BaseButton
-            v-if="hasCancel"
-            label="Cancel"
-            :color="button"
-            outline
-            @click="cancel"
-          />
+          <BaseButton v-if="hasCancel" label="Cancel" :color="button" outline @click="cancel" />
         </BaseButtons>
       </template>
     </CardBox>

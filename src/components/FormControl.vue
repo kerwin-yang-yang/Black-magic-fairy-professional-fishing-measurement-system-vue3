@@ -8,6 +8,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  isdisabled: {
+    type: Boolean,
+    default: false,
+  },
   id: {
     type: String,
     default: null,
@@ -50,6 +54,7 @@ const props = defineProps({
   ctrlKFocus: Boolean,
 });
 
+const isdisabled = ref(props.isdisabled)
 const emit = defineEmits(["update:modelValue", "setRef"]);
 
 const computedValue = computed({
@@ -127,45 +132,18 @@ if (props.ctrlKFocus) {
 
 <template>
   <div class="relative">
-    <select
-      v-if="computedType === 'select'"
-      :id="id"
-      v-model="computedValue"
-      :name="name"
-      :class="inputElClass"
-    >
-      <option
-        v-for="option in options"
-        :key="option.id ?? option"
-        :value="option"
-      >
+
+    <select v-if="computedType === 'select'" :id="id" v-model="computedValue" :name="name" :class="inputElClass">
+      <option v-for="option in options" :key="option.id ?? option" :value="option">
         {{ option.label ?? option }}
       </option>
     </select>
-    <textarea
-      v-else-if="computedType === 'textarea'"
-      :id="id"
-      v-model="computedValue"
-      :class="inputElClass"
-      :name="name"
-      :maxlength="maxlength"
-      :placeholder="placeholder"
-      :required="required"
-    />
-    <input
-      v-else
-      :id="id"
-      ref="inputEl"
-      v-model="computedValue"
-      :name="name"
-      :maxlength="maxlength"
-      :inputmode="inputmode"
-      :autocomplete="autocomplete"
-      :required="required"
-      :placeholder="placeholder"
-      :type="computedType"
-      :class="inputElClass"
-    />
+    <textarea v-else-if="computedType === 'textarea'" :id="id" v-model="computedValue" :class="inputElClass" :name="name"
+      :maxlength="maxlength" :placeholder="placeholder" :required="required" />
+    <input v-else :id="id" ref="inputEl" v-model="computedValue" :name="name" :maxlength="maxlength"
+      :inputmode="inputmode" :autocomplete="autocomplete" :required="required" :placeholder="placeholder" :type="type"
+      :class="inputElClass" :disabled="isdisabled" />
     <FormControlIcon v-if="icon" :icon="icon" :h="controlIconH" />
+
   </div>
 </template>
